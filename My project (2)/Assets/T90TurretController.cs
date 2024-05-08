@@ -7,13 +7,15 @@ public class T90TurretController : MonoBehaviour
 
     private Transform playerTransform; // Reference to the player's transform
     private bool playerInRadius = false;
+    private EnemyInput enemyInput;
 
     ProjectileLauncher pl;
 
     void Start()
     {
+        enemyInput = GetComponentInParent<EnemyInput>();
         turretTransform = transform; // Assuming the turret is the root object
-        pl = this.GetComponentInChildren<ProjectileLauncher>();
+        pl = GetComponentInChildren<ProjectileLauncher>();
         // Find the player object by tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
@@ -31,6 +33,7 @@ public class T90TurretController : MonoBehaviour
         if (playerInRadius)
         {
             LookAtPlayer();
+
             pl.Launch();
         }
     }
@@ -40,6 +43,7 @@ public class T90TurretController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRadius = true;
+            enemyInput.SetPlayerEngaged(true);
         }
     }
 
@@ -48,18 +52,16 @@ public class T90TurretController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRadius = false;
+            enemyInput.SetPlayerEngaged(false);
         }
     }
 
     void LookAtPlayer()
     {
-        // Calculate the direction towards the player
         Vector3 direction = (playerTransform.position - turretTransform.position).normalized;
 
-        // Calculate the rotation angle towards the player
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
 
-        // Smoothly rotate the turret towards the player
         turretTransform.rotation = Quaternion.RotateTowards(turretTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 }

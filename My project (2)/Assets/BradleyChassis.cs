@@ -3,12 +3,12 @@ using UnityEngine;
 public class BradleyChassis : MonoBehaviour
 {
     [SerializeField] float rotationSpeed = 0.1f;
-    [SerializeField] float speed = 100.0f;
+    [SerializeField] public float speed = 75.0f;
     private Rigidbody2D rb;
 
 
     void Start(){
-        rb = this.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         if(rb == null)
         {
             Debug.LogError("Rigidbody2D component not found on " + gameObject.name);

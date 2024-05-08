@@ -20,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     }
     
     void Update(){
+
         Bradley();
     }
 
